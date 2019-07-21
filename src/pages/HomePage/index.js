@@ -6,15 +6,14 @@ import { ClipLoader } from 'react-spinners'
 
 import { fetchUser } from '../../actions/user'
 import { fetchArticles } from '../../actions/article'
+import { deleteArticle } from '../../actions/article'
 
 import ArticleList from '../../components/ArticleList'
 
 class HomePage extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      page: 0
-    }
+    console.log('constructor HomePage')
   }
 
   componentDidMount() {
@@ -24,14 +23,13 @@ class HomePage extends Component {
   }
   
   onFetchArticles = () => {
-    const page = this.state.page
-    const query = {
-      page: page
-    }
+    const query = { page: this.props.page }
+    console.log('query.page', query)
     this.props.dispatch(fetchArticles(query))
-    this.setState({
-      page: page + 1
-    })
+  }
+
+  onDeleteArticle = article => () => {
+    this.props.dispatch(deleteArticle(article))
   }
 
   render() {
@@ -45,18 +43,12 @@ class HomePage extends Component {
       articlesError,
     } = this.props
 
-    if (userError || articlesError) {
-      return (
-        <div>
-          <h2>Error! </h2>
-          <p>{userError && userError.message}</p>
-          <p>{articlesError && articlesError.message}</p>
-        </div>
-      )
+    if(userError) {
+      return message(userError.message)
     }
-
-    if (userLoading || articlesLoading) {
-      return <ClipLoader></ClipLoader>
+    
+    if(articlesError) {
+      return message(articlesError.message)
     }
 
     return (
@@ -65,6 +57,7 @@ class HomePage extends Component {
         hasMore={hasMore}
         loading={articlesLoading}
         onFetchArticles={this.onFetchArticles}
+        onDeleteArticle={this.onDeleteArticle}
       ></ArticleList>
     )
   }
@@ -76,6 +69,7 @@ const mapStateToProps = state => ({
   userError: state.user.error,
   articles: state.articles.articles,
   hasMore: state.articles.hasMore,
+  page: state.articles.page,
   articlesLoading: state.articles.loading,
   articlesError: state.articles.error,
 })

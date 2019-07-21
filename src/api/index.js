@@ -51,6 +51,16 @@ export function getArticles(query = {}) {
 }
 
 /**
+ * 删除文章
+ */
+export function deleteArticle(article) {
+  return fetch('/api/article/deleteArticle', {
+    method: 'POST',
+    body: { article },
+  })
+}
+
+/**
  * 保存文章
  * @param {Object} file 待保存的文章
  */
