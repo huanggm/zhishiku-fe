@@ -22,6 +22,9 @@ export default class RepoListPage extends Component {
           })
           .catch(e => {
             failText = '登录过程中发生错误，3秒后自动跳转回首页'
+            message.error(failText, 3, () => {
+              history.replace('/')
+            })
           })
       } else {
         failText = '回调code不存在，3秒后自动跳转回首页'

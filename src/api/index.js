@@ -9,17 +9,47 @@ export function loginWithCode(code) {
 }
 
 /**
- * 获取所有项目
+ * 获取用户信息
  */
-export function listAllRepos() {
-
+export function getUser() {
+  return fetch(`/api/user/getUser`)
 }
 
 /**
- * 激活项目，即把该项目设置为博客项目
+ * 获取项目列表
  */
-export function activeRepo(repo) {
+export function getRepos() {
+  return fetch(`/api/user/getRepos`)
+}
 
+/**
+ * 关联项目，即把该项目设置为博客项目
+ */
+export function connectRepo(repo) {
+  return fetch('/api/user/connectRepo', {
+    method: 'POST',
+    body: { repo },
+  })
+}
+
+/**
+ * 取消关联项目
+ */
+export function unconnectRepo(repo) {
+  return fetch('/api/user/unconnectRepo', {
+    method: 'POST',
+    body: { repo },
+  })
+}
+
+/**
+ * 获取所有文章列表
+ */
+export function getArticles(query) {
+  return fetch('/api/article/getArticles', {
+    method: 'POST',
+    body: { query },
+  })
 }
 
 /**
