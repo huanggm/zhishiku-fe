@@ -45,11 +45,9 @@ export function unconnectRepo(repo) {
 /**
  * 获取所有文章列表
  */
-export function getArticles(query) {
-  return fetch('/api/article/getArticles', {
-    method: 'POST',
-    body: { query },
-  })
+export function getArticles(query = {}) {
+  const search = Object.keys(query).map(key => `${key}=${query[key]}`).join('&')
+  return fetch(`/api/article/getArticles?${search}`)
 }
 
 /**

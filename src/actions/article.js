@@ -1,29 +1,29 @@
 import * as api from '../api'
 
-export const FETCH_USER_BEGIN = 'FETCH_USER_BEGIN'
-export const FETCH_USER_SUCCESS = 'FETCH_USER_SUCCESS'
-export const FETCH_USER_FAILURE = 'FETCH_USER_FAILURE'
+export const FETCH_ARTICLES_BEGIN = 'FETCH_ARTICLES_BEGIN'
+export const FETCH_ARTICLES_SUCCESS = 'FETCH_ARTICLES_SUCCESS'
+export const FETCH_ARTICLES_FAILURE = 'FETCH_ARTICLES_FAILURE'
 
-export const fetchUserBegin = () => ({
-  type: FETCH_USER_BEGIN,
+export const fetchArticlesBegin = () => ({
+  type: FETCH_ARTICLES_BEGIN,
 })
 
-export const fetchUserSuccess = user => ({
-  type: FETCH_USER_SUCCESS,
-  payload: { user },
+export const fetchArticlesSuccess = (articles, hasMore) => ({
+  type: FETCH_ARTICLES_SUCCESS,
+  payload: { articles, hasMore },
 })
 
-export const fetchUserFailure = error => ({
-  type: FETCH_USER_FAILURE,
+export const fetchArticlesFailure = error => ({
+  type: FETCH_ARTICLES_FAILURE,
   payload: { error },
 })
 
-export function fetchUser() {
+export function fetchArticles(query) {
   return dispatch => {
-    dispatch(fetchUserBegin())
+    dispatch(fetchArticlesBegin())
     return api
-      .getUser()
-      .then(user => dispatch(fetchUserSuccess(user)))
-      .catch(error => dispatch(fetchUserFailure(error)))
+      .getArticles(query)
+      .then(res => dispatch(fetchArticlesSuccess(res.articles, res.hasMore)))
+      .catch(error => dispatch(fetchArticlesFailure(error)))
   }
 }
