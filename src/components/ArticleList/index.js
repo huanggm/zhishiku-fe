@@ -8,6 +8,7 @@ export default ({
   hasMore,
   onFetchArticles,
   onDeleteArticle,
+  onEditArticle,
 }) => {
   return (
     <InfiniteScroll
@@ -30,6 +31,9 @@ export default ({
             <div>
               <Button type="danger" onClick={onDeleteArticle(article)}>
                 删除
+              </Button>
+              <Button type="link" onClick={onEditArticle(article)}>
+                编辑
               </Button>
             </div>
           </List.Item>

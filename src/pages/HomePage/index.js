@@ -32,6 +32,10 @@ class HomePage extends Component {
     this.props.dispatch(deleteArticle(article))
   }
 
+  onEditArticle = article => () => {
+    this.props.history.push(`/edit/${article.owner}/${article.repo}/${article.path}`)
+  }
+
   render() {
     const {
       user,
@@ -44,11 +48,11 @@ class HomePage extends Component {
     } = this.props
 
     if(userError) {
-      return message(userError.message)
+      return message.error(userError.message)
     }
     
     if(articlesError) {
-      return message(articlesError.message)
+      return message.error(articlesError.message)
     }
 
     return (
@@ -58,6 +62,7 @@ class HomePage extends Component {
         loading={articlesLoading}
         onFetchArticles={this.onFetchArticles}
         onDeleteArticle={this.onDeleteArticle}
+        onEditArticle={this.onEditArticle}
       ></ArticleList>
     )
   }

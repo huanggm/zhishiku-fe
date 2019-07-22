@@ -12,6 +12,8 @@ export default class RepoListPage extends Component {
     super(props)
     this.mdeRef = React.createRef()
     this.onSave = this.onSave.bind(this)
+
+    console.log("this.props.match", this.props.match)
   }
 
   componentDidMount() {
