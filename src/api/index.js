@@ -46,8 +46,20 @@ export function unconnectRepo(repo) {
  * 获取所有文章列表
  */
 export function getArticles(query = {}) {
-  const search = Object.keys(query).map(key => `${key}=${query[key]}`).join('&')
+  const search = Object.keys(query)
+    .map(key => `${key}=${query[key]}`)
+    .join('&')
   return fetch(`/api/article/getArticles?${search}`)
+}
+
+/**
+ * 从GitHub获取原始文章内容
+ */
+export function getOriginalArticle(query = {}) {
+  const search = Object.keys(query)
+    .map(key => `${key}=${query[key]}`)
+    .join('&')
+  return fetch(`/api/article/getOriginalArticle?${search}`)
 }
 
 /**
@@ -62,8 +74,11 @@ export function deleteArticle(article) {
 
 /**
  * 保存文章
- * @param {Object} file 待保存的文章
+ * @param {Object} article 待保存的文章
  */
-export function saveFile(file) {
-
+export function saveArticle(article) {
+  return fetch('/api/article/saveArticle', {
+    method: 'POST',
+    body: { article },
+  })
 }
