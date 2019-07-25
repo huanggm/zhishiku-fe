@@ -1,27 +1,56 @@
 import React, { Component } from 'react'
-import { Button } from 'antd'
-import { ClipLoader } from 'react-spinners'
+import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { Button, message, notification } from 'antd'
 
-import RepoList from '../../components/RepoList'
+import { fetchUser } from '../../actions/user'
+import { fetchArticles } from '../../actions/article'
+import { deleteArticle } from '../../actions/article'
 
-export default class RepoListPage extends Component {
+import ArticleList from '../../components/ArticleList'
+import Editor from '../../components/Editor'
+import EditorModal from '../../components/EditorModal'
+
+import * as api from '../../api'
+
+class DetailPage extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      loading: true,
-      repos: [],
+      articleLoading: false,
+      article: {
+        userid: '',
+        repo: '',
+        path: '',
+        content_str: '',
+        tags: [],
+      },
     }
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    this.fetchArticle()
+  }
+
+  fetchArticle = () => {
+    const { userid, repo, path } = this.props.match.params
+    if (userid && repo && path) {
+      this.setState({ articleLoading: true })
+      api.getArticle({ userid, repo, path }).then(article => {
+        article.tags = article.tags || []
+        this.setState({
+          articleLoading: false,
+          article: article,
+        })
+      })
+    }
+  }
 
   render() {
-    return (
-      <div>
-        <h1>detail</h1>
-        <RepoList repos={this.state.repos}></RepoList>
-        <ClipLoader loading={this.state.loading}></ClipLoader>
-      </div>
-    )
+    const { article, articleLoading } = this.state
+
+    return <div>{article.content_str}</div>
   }
 }
+
+export default DetailPage

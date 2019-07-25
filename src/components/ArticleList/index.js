@@ -25,7 +25,7 @@ export default ({
                 <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
               }
               title={<a href="https://ant.design">{article.path}</a>}
-              description={article.owner}
+              description={article.userid}
             />
             <div>{article.content}</div>
             <div>

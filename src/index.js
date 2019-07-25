@@ -23,8 +23,8 @@ ReactDOM.render(
         <Route exact path="/" component={HomePage} />
         <Route path="/login" component={LoginPage} />
         <Route path="/repolist" component={RepoListPage} />
-        <Route path="/edit/:owner?/:repo?/:path*" component={EditPage} />
-        <Route path="/detail/:owner?/:repo?/:path*" component={DetailPage} />
+        <Route path="/edit/:userid?/:repo?/:path*" component={EditPage} />
+        <Route path="/detail/:userid?/:repo?/:path*" component={DetailPage} />
         <Route path="/callback" component={CallbackPage} />
         <Route component={HomePage} />
       </Switch>

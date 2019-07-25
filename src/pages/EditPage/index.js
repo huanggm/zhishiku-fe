@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button, message, notification } from 'antd'
-import { ClipLoader } from 'react-spinners'
 
 import { fetchUser } from '../../actions/user'
 import { fetchArticles } from '../../actions/article'
@@ -21,7 +20,7 @@ class EditPage extends Component {
       visible: false,
       articleLoading: false,
       article: {
-        owner: '',
+        userid: '',
         repo: '',
         path: '',
         content_str: '',
@@ -37,13 +36,19 @@ class EditPage extends Component {
     this.fetchArticle()
   }
 
+  componentDidUpdate() {
+    if(this.props.userError) {
+      this.props.history.push('/login')
+    }
+  }
+
   fetchArticle = () => {
-    const { owner, repo, path } = this.props.match.params
-    if (owner && repo && path) {
+    const { userid, repo, path } = this.props.match.params
+    if (userid && repo && path) {
       this.setState({
         articleLoading: true,
       })
-      api.getOriginalArticle({ owner, repo, path }).then(article => {
+      api.getOriginalArticle({ userid, repo, path }).then(article => {
         article.tags = article.tags || []
         article.oldPath = path
         this.setState({
@@ -84,7 +89,7 @@ class EditPage extends Component {
   onClickEditorModalSave = () => {
     const { article } = this.state
     const { user } = this.props
-    article.owner = user.login
+    article.userid = user._id
     api.saveArticle(article).then(res => {
       notification.success({
         message: '文章已经直接保存到Github中',
@@ -108,10 +113,6 @@ class EditPage extends Component {
       return message.error(userError.message)
     }
 
-    if (!user.id || userLoading || articleLoading) {
-      return <ClipLoader></ClipLoader>
-    }
-
     return (
       <div>
         <Editor
@@ -121,7 +122,6 @@ class EditPage extends Component {
         <EditorModal
           visible={visible}
           repos={repos}
-          owner={login}
           article={article}
           onRepoChange={this.onRepoChange}
           onPathChange={this.onPathChange}

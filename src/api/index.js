@@ -63,6 +63,16 @@ export function getOriginalArticle(query = {}) {
 }
 
 /**
+ * 从Mongodb获取文章内容
+ */
+export function getArticle(query = {}) {
+  const search = Object.keys(query)
+    .map(key => `${key}=${query[key]}`)
+    .join('&')
+  return fetch(`/api/article/getArticle?${search}`)
+}
+
+/**
  * 删除文章
  */
 export function deleteArticle(article) {

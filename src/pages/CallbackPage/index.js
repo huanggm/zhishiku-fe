@@ -1,13 +1,9 @@
 import React, { Component } from 'react'
-import { ClipLoader } from 'react-spinners'
-import {message} from 'antd'
+import { message } from 'antd'
 import * as api from '../../api'
+import Loader from '../../components/Loader'
 
-export default class RepoListPage extends Component {
-  constructor(props) {
-    super(props)
-  }
-
+export default class CallbackPage extends Component {
   componentDidMount() {
     const history = this.props.history
     const search = this.props.location.search
@@ -16,7 +12,8 @@ export default class RepoListPage extends Component {
       const match = search.match(/code=([^&]+)/)
       if (match && match[1]) {
         const code = match[1]
-        return api.loginWithCode(code)
+        return api
+          .loginWithCode(code)
           .then(res => {
             history.replace('/')
           })
@@ -38,11 +35,6 @@ export default class RepoListPage extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <h1>正在登录中</h1>
-        <ClipLoader loading={true}></ClipLoader>
-      </div>
-    )
+    return <Loader />
   }
 }

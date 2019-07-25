@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button, message } from 'antd'
-import { ClipLoader } from 'react-spinners'
 
 import { fetchUser } from '../../actions/user'
 import { fetchRepos } from '../../actions/repo'
@@ -24,6 +23,12 @@ class RepoListPage extends Component {
     }
     if (this.props.repos.length === 0) {
       this.props.dispatch(fetchRepos())
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if(this.props.userError) {
+      this.props.history.push('/login')
     }
   }
 
@@ -56,10 +61,6 @@ class RepoListPage extends Component {
           <p>{reposError && reposError.message}</p>
         </div>
       )
-    }
-
-    if (userLoading || reposLoading) {
-      return <ClipLoader></ClipLoader>
     }
 
     return (

@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { Button, message } from 'antd'
-import { ClipLoader } from 'react-spinners'
 
 import { fetchUser } from '../../actions/user'
 import { fetchArticles } from '../../actions/article'
@@ -21,6 +20,11 @@ class HomePage extends Component {
       this.props.dispatch(fetchUser())
     }
   }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if(this.props.userError) {
+      this.props.history.push('/login')
+    }
+  }
   
   onFetchArticles = () => {
     const query = { page: this.props.page }
@@ -32,8 +36,8 @@ class HomePage extends Component {
     this.props.dispatch(deleteArticle(article))
   }
 
-  onEditArticle = article => () => {
-    this.props.history.push(`/edit/${article.owner}/${article.repo}/${article.path}`)
+  onEditArticle = ({userid, repo, path}) => () => {
+    this.props.history.push(`/edit/${userid}/${repo}/${path}`)
   }
 
   render() {
@@ -47,13 +51,15 @@ class HomePage extends Component {
       articlesError,
     } = this.props
 
-    if(userError) {
-      return message.error(userError.message)
-    }
+    // if(userError) {
+    //   message.error(userError.message)
+    //   return null
+    // }
     
-    if(articlesError) {
-      return message.error(articlesError.message)
-    }
+    // if(articlesError) {
+    //   message.error(articlesError.message)
+    //   return null
+    // }
 
     return (
       <ArticleList
