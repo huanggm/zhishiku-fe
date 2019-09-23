@@ -8,7 +8,6 @@ import thunk from 'redux-thunk'
 
 import HomePage from './pages/HomePage'
 import LoginPage from './pages/LoginPage'
-import RepoListPage from './pages/RepoListPage'
 import EditPage from './pages/EditPage'
 import DetailPage from './pages/DetailPage'
 import CallbackPage from './pages/CallbackPage'
@@ -22,7 +21,6 @@ ReactDOM.render(
       <Switch>
         <Route exact path="/" component={HomePage} />
         <Route path="/login" component={LoginPage} />
-        <Route path="/repolist" component={RepoListPage} />
         <Route path="/edit/:userid?/:repo?/:path*" component={EditPage} />
         <Route path="/detail/:userid?/:repo?/:path*" component={DetailPage} />
         <Route path="/callback" component={CallbackPage} />
